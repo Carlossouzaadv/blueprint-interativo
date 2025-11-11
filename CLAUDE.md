@@ -1,247 +1,149 @@
-# CLAUDE.md
+# CLAUDE.md - Web Application Template
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this web application.
 
 ## Project Overview
 
-[PROJECT_NAME] - [PROJECT_DESCRIPTION]
-
-## Key Terminology
-
-Define project-specific terms and concepts here:
-- **[TERM_1]**: [DEFINITION]
-- **[TERM_2]**: [DEFINITION]
+ - A modern web application built with [FRAMEWORK].
 
 ## Common Development Commands
 
 ### Building and Running
 ```bash
-# Build the project
-[BUILD_COMMAND]
-
-# Run the project
-[RUN_COMMAND]
+# Install dependencies
+npm install
 
 # Start development server
-[DEV_COMMAND]
+npm run dev
 
-# Stop services
-[STOP_COMMAND]
+# Build for production
+npm run build
 
-# Check status
-[STATUS_COMMAND]
+# Run production build
+npm start
+
+# Run with Docker
+docker-compose up
 ```
 
 ### Testing
 ```bash
 # Run all tests
-[TEST_ALL_COMMAND]
+npm test
 
 # Run unit tests
-[TEST_UNIT_COMMAND]
+npm run test:unit
 
 # Run integration tests
-[TEST_INTEGRATION_COMMAND]
+npm run test:integration
 
-# Run specific test file
-[TEST_FILE_COMMAND]
+# Run E2E tests
+npm run test:e2e
 
 # Generate coverage report
-[COVERAGE_COMMAND]
+npm run test:coverage
+
+# Run tests in watch mode
+npm run test:watch
 ```
 
 ### Code Quality
 ```bash
-# Run linter
-[LINT_COMMAND]
+# Run ESLint
+npm run lint
 
-# Run type checking
-[TYPECHECK_COMMAND]
+# Fix linting issues
+npm run lint:fix
 
-# Format code
-[FORMAT_COMMAND]
+# Run TypeScript type checking
+npm run typecheck
 
-# Run security checks
-[SECURITY_COMMAND]
+# Format with Prettier
+npm run format
+
+# Run all checks
+npm run check
 ```
 
 ## Architecture Overview
 
-### System Architecture
+### Frontend Architecture
 ```
-[ARCHITECTURE_DIAGRAM]
+Browser → React/Vue/Angular → State Management → API Client
+            ↓                       ↓                ↓
+         Components             Redux/Vuex      REST/GraphQL
 ```
 
 ### Core Components
 
-1. **[COMPONENT_1]** (`[PATH]`)
-   - [DESCRIPTION]
-   - [RESPONSIBILITIES]
+1. **Frontend** (`src/`)
+   - Components: UI building blocks
+   - Pages/Views: Route-level components
+   - Services: API integration layer
+   - State: Global state management
+   - Utils: Helper functions
 
-2. **[COMPONENT_2]** (`[PATH]`)
-   - [DESCRIPTION]
-   - [RESPONSIBILITIES]
+2. **API Layer** (`src/api/` or `api/`)
+   - REST endpoints or GraphQL resolvers
+   - Authentication middleware
+   - Request validation
+   - Error handling
 
-3. **[COMPONENT_3]** (`[PATH]`)
-   - [DESCRIPTION]
-   - [RESPONSIBILITIES]
+3. **Database Layer** (`src/models/` or `models/`)
+   - ORM models/schemas
+   - Migrations
+   - Seeders
 
 ### Technology Stack
-- **Language**: [PRIMARY_LANGUAGE]
-- **Framework**: [FRAMEWORK]
-- **Database**: [DATABASE]
-- **Cache**: [CACHE]
-- **Queue**: [QUEUE]
-- **Cloud**: [CLOUD_PROVIDER]
+- **Frontend**: React/Vue/Angular/Svelte
+- **State Management**: Redux/MobX/Vuex/Pinia
+- **Styling**: CSS Modules/Styled Components/Tailwind
+- **Build Tool**: Webpack/Vite/Parcel
+- **Backend**: Node.js/Express/Nest.js
+- **Database**: PostgreSQL/MongoDB/MySQL
+- **Cache**: Redis
+- **Testing**: Jest/Mocha/Cypress
 
 ## Development Workflow
 
-1. Make changes to source files
-2. Run tests with `[TEST_COMMAND]`
-3. Check linting with `[LINT_COMMAND]`
-4. Commit changes with descriptive messages
-5. Push to feature branch and create PR
+1. Create feature branch from `main`
+2. Make changes to components/pages
+3. Update tests for new functionality
+4. Run `npm run check` to verify all checks pass
+5. Test locally with `npm run dev`
+6. Commit with conventional commits (feat/fix/chore)
+7. Push and create pull request
 
 ## Configuration
 
 ### Environment Variables
 ```bash
 # Required
-[ENV_VAR_1]=[DESCRIPTION]
-[ENV_VAR_2]=[DESCRIPTION]
+NODE_ENV=development|production
+API_URL=http://localhost:3000
+DATABASE_URL=postgresql://...
 
 # Optional
-[ENV_VAR_3]=[DESCRIPTION] (default: [DEFAULT_VALUE])
+PORT=3000
+LOG_LEVEL=debug|info|warn|error
+REDIS_URL=redis://localhost:6379
 ```
 
 ### Configuration Files
-- `[CONFIG_FILE_1]`: [PURPOSE]
-- `[CONFIG_FILE_2]`: [PURPOSE]
+- `package.json`: Dependencies and scripts
+- `tsconfig.json`: TypeScript configuration
+- `.eslintrc.json`: ESLint rules
+- `.prettierrc`: Code formatting rules
+- `webpack.config.js` or `vite.config.js`: Build configuration
 
 ## Important Files and Locations
 
-- Main entry point: `[ENTRY_POINT]`
-- Configuration: `[CONFIG_PATH]`
-- Tests: `[TESTS_PATH]`
-- Documentation: `[DOCS_PATH]`
-- Scripts: `[SCRIPTS_PATH]`
+- Entry point: `src/index.tsx` or `src/main.ts`
+- Router: `src/router/` or `src/routes/`
+- Components: `src/components/`
+- Pages: `src/pages/` or `src/views/`
+- API client: `src/services/` or `src/api/`
+- Tests: `src/__tests__/` or `tests/`
+- Static assets: `public/` or `static/`
 
-## Automated Planning System Protocol
-
-### ⚠️ CRITICAL RULE: NEVER EDIT planning-docs/ FILES DIRECTLY ⚠️
-
-### Role Separation
-**Claude Code's Responsibility**: 
-- **READ-ONLY** access to planning documentation for context
-- **TRIGGER** project-manager agent for ALL documentation updates
-- **EXECUTE** development tasks (code, tests, configs)
-
-**Project-Manager's Responsibility**:
-- **EXCLUSIVE WRITE ACCESS** to all planning-docs/ files
-- Documentation archival and organization
-- Pattern tracking and velocity calculations
-- Time estimate refinements
-
-### Every Session Start:
-1. READ `planning-docs/README.md` to understand the current system state
-2. The README will guide you to the most relevant documents for immediate context
-3. Only read additional documents when specifically needed for the current work
-
-### Trigger Project-Manager When:
-Use the Task tool with subagent_type="project-manager" when these events occur:
-- **Task Completion** → Agent will update SESSION_STATE, archive work, refresh backlogs
-- **New Tasks Created** → Agent will add to backlogs with time estimates
-- **Priority Changes** → Agent will reorder backlogs and update dependencies
-- **Blocker Encountered** → Agent will log blocker, suggest alternative tasks
-- **Blocker Resolved** → Agent will update estimates, clear blocker status
-- **Architectural Decision** → Agent will update DECISIONS.md and ARCHITECTURE.md
-- **New Specifications** → Agent will parse into tasks, update scope
-- **Context Switch** → Agent will create session log, update current state
-- **Milestone Reached** → Agent will archive phase, update project overview
-- **Knowledge Refinement** → Agent will replace assumptions with verified facts
-
-### Context Loading Strategy (Read-Only):
-1. **Immediate Context** (Always Load):
-   - `planning-docs/README.md` → Entry point and guide
-   - `planning-docs/SESSION_STATE.md` → Current task and progress
-   - `planning-docs/DAILY_BACKLOG.md` → Today's priorities
-   - Latest session log in `planning-docs/sessions/` (if exists)
-
-2. **On-Demand Context** (Load When Needed):
-   - `planning-docs/PROJECT_OVERVIEW.md` → Project scope and tech stack
-   - `planning-docs/ARCHITECTURE.md` → Technical decisions and structure
-   - `planning-docs/SPRINT_BACKLOG.md` → Weekly planning and future work
-   - `planning-docs/DECISIONS.md` → Historical architectural choices
-   - `planning-docs/completed/` → Previous work for reference
-
-### How to Trigger the Project-Manager:
-```
-Example: After completing a task
-assistant: "I've finished implementing [FEATURE]. Let me trigger the project-manager to update our documentation."
-<uses Task tool with subagent_type="project-manager">
-
-The project-manager will automatically:
-- Update SESSION_STATE.md progress
-- Archive the completed task
-- Refresh the backlogs
-- Calculate actual vs estimated time
-- Log any patterns observed
-```
-
-## Test Execution Protocol
-
-### ⚠️ CRITICAL RULE: USE test-analyst FOR ALL TESTING ⚠️
-
-### When to Trigger test-analyst:
-Use the Task tool with subagent_type="test-analyst" when:
-- **After Code Changes** → To verify functionality and catch regressions
-- **After Bug Fixes** → To confirm fixes work and don't break other tests
-- **After Feature Implementation** → To ensure comprehensive testing
-- **When Investigating Test Failures** → To get detailed analysis
-- **For Performance Testing** → To benchmark and analyze performance
-- **When User Requests Testing** → Any test-related request
-
-### ❌ FORBIDDEN ACTIONS for Claude Code:
-- Running test commands directly via Bash tool
-- Running test scripts manually
-- Executing test frameworks directly
-
-### ✅ CORRECT WORKFLOW:
-```
-❌ WRONG: Bash("[TEST_COMMAND]")
-❌ WRONG: Bash("npm test")
-❌ WRONG: Bash("python -m pytest")
-
-✅ RIGHT: Task tool with subagent_type="test-analyst"
-```
-
-### Example Usage:
-```
-assistant: "I've completed the bug fix. Let me use the test-analyst to verify all tests pass."
-<uses Task tool with subagent_type="test-analyst">
-
-The test-analyst will:
-1. Check for code changes
-2. Run appropriate test suites
-3. Analyze results
-4. Fix test infrastructure issues if needed
-5. Generate comprehensive report
-```
-
-## Agent Usage Summary
-
-### Available Specialized Agents:
-1. **project-manager**: ALL planning-docs/ updates and documentation
-2. **test-analyst**: ALL test execution and analysis  
-3. **general-purpose**: Complex multi-step research tasks
-
-### Quick Decision Tree:
-- Updating documentation? → project-manager
-- Running tests? → test-analyst
-- Complex research? → general-purpose
-- Everything else? → Do it directly
-
-### Common Mistakes to Avoid:
-1. ❌ Editing planning-docs/ directly → ✅ Use project-manager
-2. ❌ Running tests directly → ✅ Use test-analyst
-3. ❌ Manual test execution → ✅ Use test-analyst
+[Include standard agent protocols from main CLAUDE.md template]
