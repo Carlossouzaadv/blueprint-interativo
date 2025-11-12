@@ -56,9 +56,7 @@ export default function Hero({ language = 'pt' }: HeroProps) {
                   <p className="text-xs sm:text-sm text-slate-400 uppercase tracking-wide mb-2">
                     {stat.label[isPortuguese ? 'pt' : 'en']}
                   </p>
-                  <p className="text-2xl sm:text-3xl font-bold text-blue-400">
-                    {stat.value}
-                  </p>
+                  <p className="text-2xl sm:text-3xl font-bold text-blue-400">{stat.value}</p>
                 </div>
               ))}
             </div>

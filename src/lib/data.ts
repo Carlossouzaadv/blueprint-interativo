@@ -18,24 +18,28 @@ export interface BilingualText {
  * Project Challenge Section
  * Describes the problem statement and what was being solved
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Challenge extends BilingualText {}
 
 /**
  * Project Blueprint Section
  * Describes the architectural solution and technology stack
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Blueprint extends BilingualText {}
 
 /**
  * Project Decisions Section
  * Documents key technical and strategic decisions
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Decisions extends BilingualText {}
 
 /**
  * Project Metrics Section
  * Showcases results, impact, and key performance indicators
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-object-type
 export interface Metrics extends BilingualText {}
 
 /**
@@ -266,23 +270,21 @@ export function getAllProjects(): ProjectBlueprint[] {
  * Helper function to get a project by ID
  */
 export function getProjectById(id: string): ProjectBlueprint | undefined {
-  return projects.find((project) => project.id === id);
+  return projects.find(project => project.id === id);
 }
 
 /**
  * Helper function to get a project by slug
  */
 export function getProjectBySlug(slug: string): ProjectBlueprint | undefined {
-  return projects.find((project) => project.slug === slug);
+  return projects.find(project => project.slug === slug);
 }
 
 /**
  * Helper function to filter projects by status
  */
-export function getProjectsByStatus(
-  status: ProjectBlueprint['status']
-): ProjectBlueprint[] {
-  return projects.filter((project) => project.status === status);
+export function getProjectsByStatus(status: ProjectBlueprint['status']): ProjectBlueprint[] {
+  return projects.filter(project => project.status === status);
 }
 
 /**
@@ -291,8 +293,8 @@ export function getProjectsByStatus(
 export function getAllTechnologies(): Technology[] {
   const techMap = new Map<string, Technology>();
 
-  projects.forEach((project) => {
-    project.technologies.forEach((tech) => {
+  projects.forEach(project => {
+    project.technologies.forEach(tech => {
       if (!techMap.has(tech.name)) {
         techMap.set(tech.name, tech);
       }
@@ -305,9 +307,7 @@ export function getAllTechnologies(): Technology[] {
 /**
  * Helper function to get technologies by category
  */
-export function getTechnologiesByCategory(
-  category: Technology['category']
-): Technology[] {
+export function getTechnologiesByCategory(category: Technology['category']): Technology[] {
   const allTechs = getAllTechnologies();
-  return allTechs.filter((tech) => tech.category === category);
+  return allTechs.filter(tech => tech.category === category);
 }
