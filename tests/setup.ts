@@ -11,3 +11,6 @@ jest.mock('next/navigation', () => ({
   usePathname: () => '/',
   useSearchParams: () => new URLSearchParams(),
 }));
+
+// Mock scrollIntoView for JSDOM (not natively supported)
+Element.prototype.scrollIntoView = jest.fn();

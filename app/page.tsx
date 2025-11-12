@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Hero from '@/components/Hero';
 import Blueprint from '@/components/Blueprint';
+import RAGChatbot from '@/components/RAGChatbot';
 
 export default function Home() {
   const [language, setLanguage] = useState<'pt' | 'en'>('pt');
@@ -39,6 +40,9 @@ export default function Home() {
       {/* Blueprint Projects Section */}
       <Blueprint language={language} />
 
+      {/* RAG Chatbot Section */}
+      <RAGChatbot language={language} />
+
       {/* Placeholder for future sections */}
       <section className="min-h-screen bg-slate-900 flex items-center justify-center py-20 px-4">
         <div className="text-center space-y-4">
@@ -47,8 +51,8 @@ export default function Home() {
           </h2>
           <p className="text-xl text-slate-300">
             {language === 'pt'
-              ? 'Chatbot com IA • Galeria de Resultados • Entre em contato'
-              : 'AI Chatbot • Results Gallery • Get in Touch'}
+              ? 'Galeria de Resultados • Entre em contato'
+              : 'Results Gallery • Get in Touch'}
           </p>
         </div>
       </section>
