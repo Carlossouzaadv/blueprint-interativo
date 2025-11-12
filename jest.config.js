@@ -6,12 +6,14 @@
 
 module.exports = {
   preset: 'ts-jest',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   roots: ['<rootDir>/tests'],
   testMatch: ['**/__tests__/**/*.ts?(x)', '**/?(*.)+(spec|test).ts?(x)'],
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/src/$1',
+    '^@/lib/(.*)$': '<rootDir>/src/lib/$1',
+    '^@/components/(.*)$': '<rootDir>/src/components/$1',
+    '^@/app/(.*)$': '<rootDir>/app/$1',
   },
   collectCoverageFrom: [
     'src/**/*.{ts,tsx}',
@@ -23,11 +25,11 @@ module.exports = {
     '/.next/',
     '/coverage/',
   ],
-  setupFilesAfterEnv: [],
+  setupFilesAfterEnv: ['<rootDir>/tests/setup.ts'],
   globals: {
     'ts-jest': {
       tsconfig: {
-        jsx: 'preserve',
+        jsx: 'react-jsx',
       },
     },
   },
