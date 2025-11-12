@@ -111,8 +111,211 @@ Browser → Next.js App Router → React Components (TailwindCSS) → API Routes
 4. Test responsive design (mobile/desktop)
 5. Run `npm run check` to verify all checks pass
 6. Test locally with `npm run dev` in both PT/EN
-7. Commit with conventional commits (feat/fix/chore/docs)
+7. **Prepare commit message** (see "Git Commit Protocol" below)
 8. Push and create pull request to main
+
+---
+
+## Git Commit Protocol
+
+**CRITICAL RULE**: Claude NEVER makes commits autonomously. This is a human decision.
+
+### What Claude Does
+- Writes and tests code
+- Stages files (`git add`)
+- **PREPARES commit message** (presents it to you)
+- **WAITS for your approval** before committing
+
+### What YOU (Carlos) Do
+- Review the code changes
+- Review the proposed commit message
+- Make the actual `git commit` yourself
+- `git push` when ready
+
+### Why This Rule Exists
+- **Intentionality**: Commits should reflect YOUR decisions about project progress
+- **Accountability**: You maintain commit history ownership
+- **Quality Gate**: You decide what's worth committing vs what needs refinement
+- **Trust**: Never automate decisions that have human/business implications
+
+### Example Flow
+
+```
+Claude:  "I've created src/components/Hero.tsx and updated src/lib/data.ts"
+Claude:  "Here's the proposed commit message:"
+Claude:
+         feat: Build Hero component with bilingual support
+
+         - Create Hero.tsx with professional summary display
+         - Support PT/EN language switching
+         - Mobile responsive design (TailwindCSS)
+         - Accessibility: WCAG 2.1 AA compliant
+         - CTA button: "Explore My Blueprints"
+
+         Fixes TASK-003 requirements. Component validated
+         and production-ready.
+
+Claude:  "Ready to commit when you are. Run the command below when approved:"
+Claude:  "git commit -m \"feat: Build Hero component with bilingual support\n\n...\""
+
+YOU:     [Review changes]
+YOU:     [Review commit message]
+YOU:     [Run git commit]
+YOU:     [Run git push]
+```
+
+### When Files Are Staged
+
+If Claude stages files with `git add`:
+- Changes are ready for your review
+- You can run `git status` to see what's staged
+- You decide if it's worth committing (may ask Claude to make changes first)
+- You run the commit command yourself
+
+**Never** will Claude do:
+```bash
+git commit -m "..."  # ❌ NEVER
+git push             # ❌ NEVER
+```
+
+---
+
+## Specialized Agent Coordination Protocol
+
+**IMPORTANT**: This project uses specialized Claude agents to maintain quality and workflow consistency. After completing major milestones, specific agents MUST be invoked to do their designated work. This ensures proper code validation, testing, and documentation updates.
+
+### When to Invoke Agents
+
+After completing any of these major milestones, **IMMEDIATELY invoke the agents below** (in order):
+
+| Milestone | Triggers | Agents to Call |
+|-----------|----------|-----------------|
+| New component created | `src/components/*.tsx` file added/modified | `test-analyst` → `project-manager` |
+| Data structure created/modified | `src/lib/data.ts` file added/modified | `test-analyst` → `project-manager` |
+| New API route created | `app/api/**` file added | `test-analyst` → `project-manager` |
+| Task completion (TASK-00X) | Any daily task marked COMPLETED | `test-analyst` → `project-manager` |
+| Feature complete | Feature branch ready for PR | `test-analyst` → `project-manager` |
+
+### Agent Responsibilities
+
+#### 1. **test-analyst Agent**
+**Purpose**: Validate code quality, create tests, identify issues
+
+**Invoke When**: New code is created or modified (components, data layers, API routes)
+
+**Responsibilities**:
+- Validate TypeScript types and interfaces
+- Check bilingual content (PT/EN) completeness
+- Verify all required fields are present
+- Test helper functions and exports
+- Identify potential issues or edge cases
+- Create comprehensive test suite (Jest/Vitest)
+- Generate validation reports
+- Ensure code is "PRODUCTION READY" before proceeding
+
+**What NOT to do**: Don't update planning docs or make git commits (not their job)
+
+**Example Invocation**:
+```
+Task: test-analyst agent
+Description: Validate and test new data.ts structure
+Prompt: [Detailed requirements for code to test]
+```
+
+#### 2. **project-manager Agent**
+**Purpose**: Update planning documentation, track progress, make recommendations
+
+**Invoke When**: Major tasks complete or status changes
+
+**Responsibilities**:
+- Update `planning-docs/DAILY_BACKLOG.md`
+  - Mark tasks as COMPLETED with actual time spent
+  - Update time budget and remaining hours
+  - Document success criteria status
+  - Add completion notes
+- Update `planning-docs/SESSION_STATE.md`
+  - Update "Current Task" section
+  - Update "Progress" and "Milestones"
+  - Update implementation readiness percentage
+  - Update session metadata (time spent, completion rate)
+  - Update overall status at bottom
+- Maintain proper markdown formatting
+- Make strategic recommendations for next steps
+
+**What NOT to do**: Don't write code, don't make code changes
+
+**Example Invocation**:
+```
+Task: project-manager agent
+Description: Update planning docs after task completion
+Prompt: [Details about what task was completed]
+```
+
+### Correct Workflow Pattern
+
+**❌ WRONG - Don't Do This**:
+```
+1. Create component
+2. Run typecheck locally
+3. Manually update DAILY_BACKLOG.md ← WRONG! This is project-manager's job
+4. Manually add entry to SESSION_STATE.md ← WRONG! This is project-manager's job
+5. Move to next task
+```
+
+**✅ CORRECT - Do This**:
+```
+1. Create component
+2. Run typecheck locally
+3. Invoke test-analyst agent → Gets validation, test suite, quality report
+4. Invoke project-manager agent → Gets docs updated automatically
+5. Review reports and recommendations
+6. Move to next task
+```
+
+### Why This Structure Exists
+
+This project requires **high-quality, well-documented code** because:
+- **Recruitment Tool**: Code showcases architectural thinking to CTOs/recruiters
+- **Bilingual Complexity**: PT/EN content must be 100% synchronized
+- **Multi-component Coordination**: Hero, Blueprint, Chatbot need to integrate seamlessly
+- **Planning Continuity**: Docs must accurately track progress for future sessions
+
+By dividing work between specialized agents:
+- **Quality Stays High**: test-analyst ensures code meets production standards
+- **Docs Stay Current**: project-manager keeps planning docs in sync with reality
+- **Consistency Maintained**: Both agent types prevent human error/forgetfulness
+- **Future Proof**: Even without context, agents know their responsibilities
+
+### Implementation Checklist
+
+Use this checklist when completing major work:
+
+- [ ] Code is written and locally tested
+- [ ] `npm run check` passes (no lint/type errors)
+- [ ] Task is logically complete
+- [ ] **INVOKE test-analyst**: "Validate [component/data/API] for production readiness"
+  - Wait for report
+  - Review any identified issues
+  - Fix critical issues if needed
+  - Get approval: "Production Ready ✓"
+- [ ] **INVOKE project-manager**: "Update planning docs after [task name] completion"
+  - Wait for update confirmation
+  - Verify docs are current
+- [ ] Proceed to next task
+
+### Communication
+
+When invoking agents, be explicit about:
+1. **What was completed**: "TASK-002: Create Data Structure (lib/data.ts)"
+2. **What to validate/document**: "[Specific files, features, metrics]"
+3. **Success criteria**: "[What defines success for this milestone]"
+4. **Expected deliverables**: "[Reports, tests, doc updates, recommendations]"
+
+---
+
+## No-Nonsense Rule
+
+**If a major code milestone is completed WITHOUT invoking the corresponding agents, that's a process failure.** This section exists to prevent that. Future Claude instances reading this must understand: agents exist to maintain standards, and they MUST be used.
 
 ## Configuration
 
