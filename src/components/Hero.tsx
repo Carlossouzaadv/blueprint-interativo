@@ -1,6 +1,5 @@
 'use client';
 
-import Link from 'next/link';
 import { professionalProfile, getContactLinks } from '@/lib/profile';
 import { Github, Linkedin, Mail, Phone, ChevronDown } from 'lucide-react';
 
@@ -63,13 +62,16 @@ export default function Hero({ language = 'pt' }: HeroProps) {
 
             {/* CTA buttons */}
             <div className="flex flex-col sm:flex-row gap-4 pt-6">
-              <Link
-                href="#projects"
+              <button
+                onClick={() => {
+                  const projectsSection = document.getElementById('projects');
+                  projectsSection?.scrollIntoView({ behavior: 'smooth' });
+                }}
                 className="inline-flex items-center justify-center gap-2 px-6 sm:px-8 py-3 sm:py-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200 text-sm sm:text-base"
               >
                 {ctaLabel}
                 <ChevronDown size={20} className="sm:hidden" />
-              </Link>
+              </button>
 
               <a
                 href={contact.linkedin}
@@ -119,35 +121,20 @@ export default function Hero({ language = 'pt' }: HeroProps) {
           {/* Right column - Visual element */}
           <div className="hidden lg:flex items-center justify-center">
             <div className="relative w-full max-w-md h-96">
-              {/* Animated background card */}
+              {/* Animated background glow */}
               <div className="absolute inset-0 bg-gradient-to-br from-blue-500 to-purple-600 rounded-2xl opacity-10 blur-2xl"></div>
 
-              {/* Main card */}
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 overflow-hidden">
+              {/* Photo container */}
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-900 rounded-2xl border border-slate-700 overflow-hidden p-8 flex items-center justify-center">
                 {/* Top accent bar */}
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-blue-500 via-purple-500 to-blue-500"></div>
 
-                {/* Content */}
-                <div className="relative h-full flex flex-col justify-between p-8">
-                  <div className="space-y-4">
-                    <div className="w-16 h-16 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg"></div>
-                    <div className="space-y-2">
-                      <div className="h-4 bg-slate-700 rounded w-3/4"></div>
-                      <div className="h-3 bg-slate-700 rounded w-1/2"></div>
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <div className="h-3 bg-slate-700 rounded w-full"></div>
-                    <div className="h-3 bg-slate-700 rounded w-5/6"></div>
-                    <div className="h-3 bg-slate-700 rounded w-4/5"></div>
-                  </div>
-
-                  <div className="flex gap-2">
-                    <div className="flex-1 h-10 bg-slate-700 rounded"></div>
-                    <div className="flex-1 h-10 bg-slate-700 rounded"></div>
-                  </div>
-                </div>
+                {/* Profile photo */}
+                <img
+                  src="/carlos-souza.png"
+                  alt={professionalProfile.name}
+                  className="w-full h-full object-cover rounded-xl"
+                />
 
                 {/* Animated corner elements */}
                 <div className="absolute -top-20 -right-20 w-40 h-40 bg-blue-500 rounded-full mix-blend-multiply filter blur-2xl opacity-20"></div>

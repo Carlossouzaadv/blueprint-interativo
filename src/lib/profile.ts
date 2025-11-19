@@ -33,6 +33,12 @@ export interface ProfessionalProfile {
     value: string;
   }[];
   contact: ContactInfo;
+  certifications?: {
+    name: string;
+    issuer: string;
+    year: number;
+    url?: string;
+  }[];
 }
 
 export const professionalProfile: ProfessionalProfile = {
@@ -78,6 +84,23 @@ export const professionalProfile: ProfessionalProfile = {
     linkedin: 'https://www.linkedin.com/in/carlos-souza-5874315b/',
     github: 'https://github.com/Carlossouzaadv',
   },
+  certifications: [
+    {
+      name: 'Google Cloud Computing Foundations: Networking & Security',
+      issuer: 'Google Cloud',
+      year: 2023,
+    },
+    {
+      name: 'AWS Certified Solutions Architect',
+      issuer: 'Amazon Web Services',
+      year: 2023,
+    },
+    {
+      name: 'Atlassian Jira Fundamentals',
+      issuer: 'Atlassian',
+      year: 2023,
+    },
+  ],
 };
 
 /**

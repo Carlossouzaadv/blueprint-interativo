@@ -51,7 +51,7 @@ export default function Blueprint({ language = 'pt' }: BlueprintProps) {
   };
 
   return (
-    <section className="py-12 sm:py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-slate-800">
+    <section id="projects" className="py-12 sm:py-20 md:py-32 px-4 sm:px-6 lg:px-8 bg-slate-900">
       <div className="max-w-7xl mx-auto">
         {/* Section header */}
         <div className="mb-12 sm:mb-16">
@@ -97,6 +97,18 @@ export default function Blueprint({ language = 'pt' }: BlueprintProps) {
                   <p className="text-xs sm:text-sm text-slate-400">
                     {isPortuguese ? 'Ano' : 'Year'}: {project.year}
                   </p>
+                )}
+
+                {/* Live Site Link */}
+                {project.liveUrl && (
+                  <a
+                    href={project.liveUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2 mt-3 px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold rounded-lg transition-colors"
+                  >
+                    {isPortuguese ? '🌐 Visitar Site' : '🌐 Visit Live Site'}
+                  </a>
                 )}
               </div>
 

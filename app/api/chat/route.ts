@@ -3,13 +3,14 @@ import { NextResponse } from 'next/server';
 import { projects } from '@/lib/data';
 import { professionalProfile } from '@/lib/profile';
 
-// Initialize Gemini API
-const genAI = new GoogleGenerativeAI(process.env.NEXT_PUBLIC_GEMINI_API_KEY || '');
+// Initialize Gemini API (server-side only)
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '');
 
 export async function POST(req: Request) {
   try {
     // Check for API Key
-    if (!process.env.NEXT_PUBLIC_GEMINI_API_KEY) {
+    if (!process.env.GEMINI_API_KEY) {
+      console.error('GEMINI_API_KEY not found in environment variables');
       return NextResponse.json(
         { error: 'Gemini API Key not configured' },
         { status: 500 }
@@ -44,6 +45,16 @@ export async function POST(req: Request) {
       Summary: ${language === 'pt' ? professionalProfile.summary.pt : professionalProfile.summary.en}
       Location: ${language === 'pt' ? professionalProfile.location.pt : professionalProfile.location.en}
       Contact: ${JSON.stringify(professionalProfile.contact)}
+      
+      KEY STATS:
+      ${professionalProfile.keyStats.map(stat => `
+        - ${language === 'pt' ? stat.label.pt : stat.label.en}: ${stat.value}
+      `).join('\n')}
+
+      CERTIFICATIONS:
+      ${professionalProfile.certifications?.map(cert => `
+        - ${cert.name} (${cert.issuer}, ${cert.year})
+      `).join('\n') || 'No certifications listed'}
 
       PROJECTS (Case Studies):
       ${projects.map(p => `
@@ -51,11 +62,13 @@ export async function POST(req: Request) {
         Name: ${language === 'pt' ? p.title.pt : p.title.en}
         Description: ${language === 'pt' ? p.description.pt : p.description.en}
         Status: ${p.status}
+        Year: ${p.year || 'N/A'}
+        Live URL: ${p.liveUrl || 'Not available'}
         Challenge: ${language === 'pt' ? p.challenge.pt : p.challenge.en}
         Solution/Blueprint: ${language === 'pt' ? p.blueprint.pt : p.blueprint.en}
         Decisions: ${language === 'pt' ? p.decisions.pt : p.decisions.en}
         Metrics/Results: ${language === 'pt' ? p.metrics.pt : p.metrics.en}
-        Technologies: ${p.technologies.map(t => t.name).join(', ')}
+        Technologies: ${p.technologies.map(t => `${t.name} (${t.role})`).join(', ')}
       `).join('\n---\n')}
 
       INSTRUCTIONS:
@@ -64,10 +77,11 @@ export async function POST(req: Request) {
       3. Be professional, concise, and helpful.
       4. Act as if you are an extension of Carlos's professional persona.
       5. Do not make up facts.
+      6. When mentioning projects with live URLs, you can mention they are accessible online.
     `;
 
-    // Initialize model
-    const model = genAI.getGenerativeModel({ model: 'gemini-pro' });
+    // Initialize model - using Gemini 2.0 Flash Lite (fast and efficient)
+    const model = genAI.getGenerativeModel({ model: 'gemini-2.0-flash-lite-001' });
 
     // Generate content
     const result = await model.generateContent([

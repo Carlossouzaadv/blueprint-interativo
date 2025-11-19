@@ -19,28 +19,28 @@ export interface BilingualText {
  * Describes the problem statement and what was being solved
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Challenge extends BilingualText {}
+export interface Challenge extends BilingualText { }
 
 /**
  * Project Blueprint Section
  * Describes the architectural solution and technology stack
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Blueprint extends BilingualText {}
+export interface Blueprint extends BilingualText { }
 
 /**
  * Project Decisions Section
  * Documents key technical and strategic decisions
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Decisions extends BilingualText {}
+export interface Decisions extends BilingualText { }
 
 /**
  * Project Metrics Section
  * Showcases results, impact, and key performance indicators
  */
 // eslint-disable-next-line @typescript-eslint/no-empty-object-type
-export interface Metrics extends BilingualText {}
+export interface Metrics extends BilingualText { }
 
 /**
  * Technology Used in Project
@@ -68,6 +68,7 @@ export interface ProjectBlueprint {
   technologies: Technology[];
   year?: number;
   position?: number; // Display order on portfolio
+  liveUrl?: string; // Live project URL
 }
 
 /**
@@ -118,6 +119,7 @@ export const projects: ProjectBlueprint[] = [
     ],
     year: 2023,
     position: 1,
+    liveUrl: 'https://www.justoai.com.br/',
   },
   {
     id: 'justoai-v2',
@@ -168,6 +170,7 @@ export const projects: ProjectBlueprint[] = [
     ],
     year: 2024,
     position: 2,
+    liveUrl: 'https://v2.justoai.com.br/',
   },
   {
     id: 'poker-grinders-edge',
@@ -213,6 +216,7 @@ export const projects: ProjectBlueprint[] = [
     ],
     year: 2024,
     position: 3,
+    liveUrl: 'https://poker-grinders-edge-web.vercel.app/',
   },
   {
     id: 'cerebro-juridico',
