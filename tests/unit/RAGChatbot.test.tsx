@@ -123,9 +123,9 @@ describe('RAGChatbot Component', () => {
       render(<RAGChatbot language="pt" />);
 
       const sendButton = screen.getByRole('button', { name: /Enviar/i });
-      const input = screen.getByPlaceholderText(
-        /Pergunte algo sobre os projetos/i
-      );
+      // const input = screen.getByPlaceholderText(
+      //   /Pergunte algo sobre os projetos/i
+      // );
 
       // Try to send empty message
       fireEvent.click(sendButton);

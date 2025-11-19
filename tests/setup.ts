@@ -13,4 +13,7 @@ jest.mock('next/navigation', () => ({
 }));
 
 // Mock scrollIntoView for JSDOM (not natively supported)
-Element.prototype.scrollIntoView = jest.fn();
+// Only apply in jsdom environment (not in node environment for API tests)
+if (typeof Element !== 'undefined') {
+  Element.prototype.scrollIntoView = jest.fn();
+}

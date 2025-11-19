@@ -60,19 +60,47 @@ export default function RAGChatbot({ language = 'pt' }: RAGChatbotProps) {
     setInput('');
     setIsLoading(true);
 
-    // Simulate API call delay (will be replaced by actual API in TASK-006)
-    setTimeout(() => {
+    try {
+      const response = await fetch('/api/chat', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          messages: [...messages, userMessage],
+          language: language,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch response');
+      }
+
+      const data = await response.json();
+
       const assistantMessage: ChatMessage = {
         id: (Date.now() + 1).toString(),
         role: 'assistant',
-        content: isPortuguese
-          ? 'Essa é uma ótima pergunta! Estou processando sua mensagem. Em breve, esta será uma resposta real alimentada pela API Gemini com informações dos projetos.'
-          : "That's a great question! I'm processing your message. Soon, this will be a real response powered by the Gemini API with project information.",
+        content: data.content,
         timestamp: new Date(),
       };
+
       setMessages(prev => [...prev, assistantMessage]);
+    } catch (error) {
+      console.error('Error sending message:', error);
+      // Add error message
+      const errorMessage: ChatMessage = {
+        id: (Date.now() + 1).toString(),
+        role: 'assistant',
+        content: isPortuguese
+          ? 'Desculpe, encontrei um erro ao processar sua mensagem. Por favor, tente novamente.'
+          : 'Sorry, I encountered an error processing your message. Please try again.',
+        timestamp: new Date(),
+      };
+      setMessages(prev => [...prev, errorMessage]);
+    } finally {
       setIsLoading(false);
-    }, 500);
+    }
   };
 
   const handleClearChat = () => {
@@ -114,17 +142,15 @@ export default function RAGChatbot({ language = 'pt' }: RAGChatbotProps) {
                 className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
               >
                 <div
-                  className={`max-w-xs sm:max-w-md lg:max-w-lg px-4 py-3 rounded-lg ${
-                    message.role === 'user'
+                  className={`max-w-xs sm:max-w-md lg:max-w-lg px-4 py-3 rounded-lg ${message.role === 'user'
                       ? 'bg-blue-600 text-white rounded-br-none'
                       : 'bg-slate-700 text-slate-100 rounded-bl-none border border-slate-600'
-                  }`}
+                    }`}
                 >
                   <p className="text-sm sm:text-base leading-relaxed">{message.content}</p>
                   <p
-                    className={`text-xs mt-2 ${
-                      message.role === 'user' ? 'text-blue-100' : 'text-slate-400'
-                    }`}
+                    className={`text-xs mt-2 ${message.role === 'user' ? 'text-blue-100' : 'text-slate-400'
+                      }`}
                   >
                     {message.timestamp.toLocaleTimeString(isPortuguese ? 'pt-BR' : 'en-US', {
                       hour: '2-digit',
